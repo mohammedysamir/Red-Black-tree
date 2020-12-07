@@ -74,6 +74,17 @@ Node *getUncle(Node *current)
       return NULL;
   }
 
+
+bool isSameDirection(Node* current){
+  Node *Parent=current->parent;
+  Node *Uncle=getUncle(current);
+  Node *GP=Uncle->parent;
+  //if (current is left of parent and uncle is left of GP) or (current is right of parent and uncle is right of GP) 
+  if((current==Parent->left && Uncle==GP->left)||(current==Parent->right && Uncle==GP->right))
+       return true;
+  return false;
+}
+
 public:
 
 bool isEmpty(){
@@ -88,29 +99,37 @@ void insert(int number)
     //Check cases of Red-Black Tree
     Node *current_node = insertBT(number);
     //1. if current == root -----> turn root to black
+    do{
     if (current_node == root)
     {
       root->Color = 1;
-      return;
+      break;
     }
     Node *Parent = current_node->parent;
-    if (getUncle(current_node) != NULL)
+    Node *GrandParent = Parent->parent;
+    if (GrandParent != NULL)
     {
       Node *Uncle = getUncle(current_node);
-      Node *GrandParent = Parent->parent;
       //2. if(current->parent.Color==1)----> just insert it  'Parent is black'
       if (Parent->Color == 1)
-        return;
+       break;
       //3. if(current->parent.Color==0 && current->uncle.Color==0) ---> switch color of p,u&Gp
-      if (Parent->Color == 0 && Uncle->Color == 0)
+      if (Parent->Color == 0)
       {
+      if(Uncle !=NULL &&Uncle->Color == 0){
         Parent->Color = 1;
         Uncle->Color = 1;
         GrandParent->Color = 0;
+        current_node=GrandParent;
       }
+      if(Uncle==NULL || Uncle->Color==1){
       //4. if(same direction)---> rotate to parent
+      
       //5. if(oppisite direction)---> rotate to parent's parent & switch color
+      }
     }
+    }
+    }while(current_node!=root && root->Color == 0);
   }
 
 void Print(){
