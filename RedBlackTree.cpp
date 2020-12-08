@@ -46,7 +46,8 @@ void inorder(Node* temp){
     return;
   else{
     inorder(temp->left);
-    cout<<temp->value<<" ";
+    string Color=temp->Color?" (B) ":" (R) ";
+    cout<<temp->value<<Color;
     inorder(temp->right);
   }
 }
@@ -57,16 +58,14 @@ Node *getUncle(Node *current)
     if (Parent != NULL && Parent->parent != NULL)
     {
       Node *GP = Parent->parent;
-      if (Parent->parent != root)
+      if (GP != NULL)
       {
         if (Parent == GP->left)
         {
-          //uncle is right child
           return GP->right;
         }
         else
         {
-          //uncle is left child
           return GP->left;
         }
       }
@@ -86,7 +85,7 @@ bool isSameDirection(Node* current){
        return true;
   }
   return false;
-}
+  }
 
 public:
 
@@ -125,7 +124,7 @@ void insert(int number)
         GrandParent->Color = 0;
         current_node=GrandParent;
       }
-      if(Uncle==NULL ||(Uncle !=NULL && Uncle->Color==1)){
+      /*if(Uncle==NULL ||(Uncle !=NULL && Uncle->Color==1)){
       //4. if(same direction)---> rotate to parent 
       if(isSameDirection(current_node))
       {
@@ -145,7 +144,7 @@ void insert(int number)
       else{
         
       }
-      }
+      }*/
     }
     }
     }while(current_node!=root && root->Color == 0);
