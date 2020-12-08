@@ -104,7 +104,8 @@ void insert(int number)
     do{
     if (current_node == root)
     {
-      root->Color = 1;
+      cout<<"Root"<<endl;
+      current_node->Color = 1;
       break;
     }
     Node *Parent = current_node->parent;
@@ -147,7 +148,7 @@ void insert(int number)
       }*/
     }
     }
-    }while(current_node!=root && root->Color == 0);
+    }while( current_node == root && root->Color ==0 );
   }
 
 void Print(){
