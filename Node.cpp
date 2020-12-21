@@ -13,6 +13,4 @@ left=nullptr;
 right=nullptr;
 parent=nullptr;
 }
-
-
 };

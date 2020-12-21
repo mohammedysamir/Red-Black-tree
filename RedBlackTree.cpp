@@ -51,7 +51,61 @@ void inorder(Node* temp){
     inorder(temp->right);
   }
 }
+Node* RR(Node* current){
+Node* Parent=current->parent;
+Node* GP=Parent->parent;
+//rotate
+Parent->parent=GP->parent;
+GP->parent->right=Parent;
+GP->parent=Parent;
+GP->right=Parent->left;
+GP->right->parent=GP;
+Parent->left=GP;
+return Parent;
+}
+Node* LL(Node* current){
+  Node*Parent=current->parent;
+  Node*GP=Parent->parent;
+  Parent->parent=GP->parent;
+GP->parent->left=Parent;
+GP->parent=Parent;
+GP->left=Parent->right;
+GP->left->parent=GP;
+Parent->right=GP;
+  return Parent;
+}
 
+Node* LR(Node* current){
+  Node* Parent=current->parent;
+  Node* GP=Parent->parent;
+  Parent->right=current->left;
+  Parent->right->parent=Parent;
+
+  //rotate child over parent
+
+  current->left=Parent;
+  Parent->parent=current;
+
+  //rotate child over GP
+  current=LL(Parent);
+  return current;
+}
+
+Node* RL(Node* current){
+  Node* Parent=current->parent;
+  Node* GP=Parent->parent;
+  Parent->left=current->right;
+  Parent->left->parent=Parent;
+
+  //rotate child over parent
+
+  current->right=Parent;
+  Parent->parent=current;
+
+  //rotate child over GP
+  current=RR(Parent);
+  return current;
+}
 Node *getUncle(Node *current)
   {
     Node *Parent = current->parent;
@@ -79,7 +133,7 @@ bool isSameDirection(Node* current){
   Node *Uncle=getUncle(current);
   Node *GP=Parent->parent;
   //if (current is left of parent and uncle is left of GP) or (current is right of parent and uncle is right of GP) 
-  if(GP!=NULL && Uncle !=NULL)
+  if(GP!=NULL)
   {
     if((current==Parent->left && Uncle==GP->left)||(current==Parent->right && Uncle==GP->right))
        return true;
@@ -104,7 +158,6 @@ void insert(int number)
     do{
     if (current_node == root)
     {
-      cout<<"Root"<<endl;
       current_node->Color = 1;
       break;
     }
@@ -125,31 +178,48 @@ void insert(int number)
         GrandParent->Color = 0;
         current_node=GrandParent;
       }
-      /*if(Uncle==NULL ||(Uncle !=NULL && Uncle->Color==1)){
-      //4. if(same direction)---> rotate to parent 
+      else if(Uncle==NULL ||(Uncle !=NULL && Uncle->Color==1)){
+       //4. if(same direction)---> rotate to parent 
       if(isSameDirection(current_node))
       {
-        int temp=Parent->value;
-        Parent->value=current_node->value;
-        current_node->value=temp;
-        //cut pointer to parent 
         if(current_node==Parent->right){
-          Parent->right=NULL;
-        }else{
-          Parent->left=NULL;
+          Parent=LR(current_node);
+          Parent->right->Color=0; //change old GP's color
+
         }
-        //re-insert currentNode to adjust positions
-        current_node=insertBT(current_node->value);
+        else{
+          Parent=RL(current_node);
+          Parent->left->Color=0;
+
+        }
+         GrandParent=Parent->parent;
+         //switch parent and GP colors
+         Parent->Color=1;
+         break;//terminate case
       }
       //5. if(oppisite direction)---> rotate to parent's parent & switch color
       else{
-        
+        if(current_node==Parent->left){
+          //left-left rotation
+          Parent=LL(current_node);
+          Parent->right->Color=0; //change old GP's color
+        }
+        else{
+          //right-right rotation
+          Parent=RR(current_node);
+          Parent->left->Color=0;
+        }
+         GrandParent=Parent->parent;
+         //switch parent and GP colors
+         Parent->Color=1;
+         break;//terminate case
       }
-      }*/
+      }
     }
     }
     }while( current_node == root && root->Color ==0 );
   }
+
 
 void Print(){
   if(root!=NULL)
