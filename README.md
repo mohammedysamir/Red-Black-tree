@@ -18,15 +18,15 @@ implement Red-Black Tree
         1. Uncle Red 
             * Switch color of Uncle and Parent to 'black'.
             * Switch color of GrandParent to 'red'.
-            ![Insertion-case-3](/images/Insertion-case-3.jpeg)
+            >![Insertion-case-3](/images/Insertion-case-3.jpeg)
         1. Uncle is Black or nil
             * Uncle and Node in **Same Direction**
                 * Do Left-Right rotation | Right-Left rotation.
                 * Swap colors of Node and GrandParent.
-                ![Insertion-case-4](/images/Insertion-case-4.jpeg)
+                >![Insertion-case-4](/images/Insertion-case-4.jpeg)
             * Uncle and Node in **oppisite Direction**
                 * Do Right-Right|Left-Left rotation.
                 * Swap colors of Parent and GrandParent
-                ![Insertion-case-5](/images/Insertion-case-5.jpeg)
+                >![Insertion-case-5](/images/Insertion-case-5.jpeg)
 
 
