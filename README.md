@@ -9,11 +9,11 @@ implement Red-Black Tree
 ### 1. Insertion :always insert as Red-leaf node
 1. Tree is empty
     *  insert node as root and make its color 'black'.
-    ![Insertion-case-1](/images/Insertion-case-1.jpeg)
+    >![Insertion-case-1](/images/Insertion-case-1.jpeg)
 2. Tree isn't empty
     1. Parent is black
         *  just insert it.
-        ![Insertion-case-2](/images/Insertion-case-2.jpeg)
+        >![Insertion-case-2](/images/Insertion-case-2.jpeg)
     1. Parent is Red
         1. Uncle Red 
             * Switch color of Uncle and Parent to 'black'.
