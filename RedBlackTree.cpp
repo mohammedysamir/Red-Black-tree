@@ -2,7 +2,7 @@
 #include "Node.cpp"
 using namespace std;
 /*
-1.insert Done
+1.insert  Done
 2.delete
 3.print   Done
 4.clear   Done
@@ -171,6 +171,63 @@ private:
     return false;
   }
 
+  //perform deletion of BST
+  Node* deleteBT(int number){
+    Node* temp=root;
+    while(temp->value != number){
+      if(temp->value < number)temp=temp->right;
+      else temp=temp->left;
+    }
+    cout<<"current node is : "<<temp->value<<endl;
+    //1. delete leaf
+    if(temp->left==NULL&&temp->right==NULL)
+    {
+      return temp;
+    }
+    //2. delete Node has 1 child
+    else if(temp->right==NULL&&temp->left!=NULL){
+        //has left child
+        //int swap=temp->value;
+        temp->value=temp->left->value;
+        //temp->left->value=swap;
+        return temp->left;
+    }
+    else if(temp->left==NULL&&temp->right!=NULL){
+      //has right child
+      //int swap=temp->value;
+        temp->value=temp->right->value;
+        //temp->right->value=swap;
+        cout<<"right child is :"<<temp->right->value<<endl;
+        return temp->right;
+    }
+    //3. delete Node has 2[Subtrees,Childred]
+     return getPredecessor(temp); 
+  }
+
+  Node* getPredecessor(Node* current){
+    Node* temp=root;
+    //traverse to reach current
+    while(temp->value != current->value){
+      if(temp->value < current->value)
+      {
+        temp=temp->right;
+      }
+      else temp=temp->left;
+    }
+    
+    if(temp->left==NULL)
+    {
+      return temp;
+    }
+    //getting Predecessor
+      temp=temp->left;
+      while(temp->right!=NULL)
+      {
+        temp=temp->right;     
+      }
+    return temp;
+  }
+
 public:
   bool isEmpty()
   {
@@ -254,6 +311,10 @@ public:
         }
       }
     } while (current_node == root && root->Color == 0);
+  }
+
+  void Delete(int number){
+    cout<<deleteBT(number)->value<<endl;
   }
 
   void Print()
