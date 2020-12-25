@@ -178,7 +178,6 @@ private:
       if(temp->value < number)temp=temp->right;
       else temp=temp->left;
     }
-    cout<<"current node is : "<<temp->value<<endl;
     //1. delete leaf
     if(temp->left==NULL&&temp->right==NULL)
     {
@@ -186,18 +185,11 @@ private:
     }
     //2. delete Node has 1 child
     else if(temp->right==NULL&&temp->left!=NULL){
-        //has left child
-        //int swap=temp->value;
         temp->value=temp->left->value;
-        //temp->left->value=swap;
         return temp->left;
     }
     else if(temp->left==NULL&&temp->right!=NULL){
-      //has right child
-      //int swap=temp->value;
         temp->value=temp->right->value;
-        //temp->right->value=swap;
-        cout<<"right child is :"<<temp->right->value<<endl;
         return temp->right;
     }
     //3. delete Node has 2[Subtrees,Childred]
@@ -226,6 +218,22 @@ private:
         temp=temp->right;     
       }
     return temp;
+  }
+  
+  Node*getSibling(Node*current)
+  {
+    Node*parent=current->parent;
+  if(current==parent->left)
+  {
+    return parent->right;
+  }
+    return parent->left;
+  }
+
+  bool isRight(Node* current){
+    Node* Parent=current->parent;
+    if(current==Parent->right)return true;
+    return false;
   }
 
 public:
@@ -314,8 +322,30 @@ public:
   }
 
   void Delete(int number){
-    cout<<deleteBT(number)->value<<endl;
-  }
+    Node* temp=deleteBT(number);
+    Node* parent=temp->parent;
+    //1-temp->color=0 delete 
+    if(temp->Color==0)
+    {
+     if(isRight(temp))
+     {
+       parent->right=NULL;
+     }
+     else
+      parent->left=NULL;
+      temp->parent=NULL;
+    }
+    
+    //2-temp->color=1 (double black problem)
+    //Change temp->color to 2 'double black'
+    // case 1:d=double black is root ----> make it black and delete
+    // case 2 p=black s =red n=black{rotate and switch s,p}
+    // cas 3 p=black s=black n=black{d=black....p=D....s=red}
+    // cas 4 p=red s=black n=black{D=black ....switch color s,p}
+    // case5  s=black n=red{n,D same direction 1:rotate n on s...2:switch colorn,s}
+    // case6  s=black n=red{n,doubleblack opposite direction...1:rotate parent n on gp namespace 2:switch color:n,p,gp....3:D=black}
+
+      }
 
   void Print()
   {
