@@ -327,6 +327,7 @@ public:
     //1-temp->color=0 delete 
     if(temp->Color==0)
     {
+      cout<<"Red Node"<<endl;
      if(isRight(temp))
      {
        parent->right=NULL;
@@ -334,18 +335,47 @@ public:
      else
       parent->left=NULL;
       temp->parent=NULL;
+      return;//terminating case
     }
-    
     //2-temp->color=1 (double black problem)
-    //Change temp->color to 2 'double black'
+    else if (temp->Color==1){
+      //Change temp->color to 2 'double black'
+      temp->Color=2;
+      cout<<"Black Node"<<endl;
     // case 1:d=double black is root ----> make it black and delete
+    if(temp==root)
+    {
+      root->Color=1;
+      root=NULL;
+      return; //terminating case
+    }
+    do{
+    Node* Sibling =getSibling(temp);
+    Node* RightNephew=Sibling->right;
+    Node* LeftNephew=Sibling->left;
     // case 2 p=black s =red n=black{rotate and switch s,p}
+    
+    if(parent->Color==1 && Sibling->Color==0 && RightNephew->Color==1 && LeftNephew->Color==1)
+    {
+      cout<<"Case 2 "<<endl;
+      if(Sibling==parent->right)
+      {
+        RR(RightNephew);
+      }
+      else
+      {
+        LL(LeftNephew);
+      }
+      Sibling->Color=0;
+      parent->Color=1;
+    }
     // cas 3 p=black s=black n=black{d=black....p=D....s=red}
     // cas 4 p=red s=black n=black{D=black ....switch color s,p}
     // case5  s=black n=red{n,D same direction 1:rotate n on s...2:switch colorn,s}
     // case6  s=black n=red{n,doubleblack opposite direction...1:rotate parent n on gp namespace 2:switch color:n,p,gp....3:D=black}
-
-      }
+    }while(temp != NULL);
+    }
+  }
 
   void Print()
   {

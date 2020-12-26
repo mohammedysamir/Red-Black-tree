@@ -11,7 +11,7 @@ rb->insert(8);
 rb->insert(22);
 rb->insert(26);
 rb->Print();
-rb->Delete(26);
+rb->Delete(3);
 rb->Print();
 
 }
