@@ -2,16 +2,19 @@
 #include"RedBlackTree.cpp"
 int main() {
 RedBlackTree *rb=new RedBlackTree();
-rb->insert(7);
-rb->insert(3);
-rb->insert(18);
-rb->insert(10);
-rb->insert(11);
+rb->insert(13);
 rb->insert(8);
+rb->insert(1);
+rb->insert(11);
+rb->insert(6);
+rb->insert(17);
+rb->insert(15);
+rb->insert(25);
 rb->insert(22);
-rb->insert(26);
+rb->insert(27);
+
 rb->Print();
-rb->Delete(3);
+rb->Delete(13);
 rb->Print();
 
 }

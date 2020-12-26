@@ -11,7 +11,7 @@ class RedBlackTree
 {
 private:
 	Node* root = NULL;
-	//regular insert of binary search
+	//Helper functions to do {insert in BST , delete in BST , inorder traversal , rotations , get uncle and Sibling , isSameDirection , get Predecessor}
 	Node* insertBT(int number)
 	{
 		Node* newnode = new Node();
@@ -61,6 +61,7 @@ private:
 			inorder(temp->right);
 		}
 	}
+
 	Node* RR(Node* current)
 	{
 		Node* Parent = current->parent;
@@ -84,6 +85,7 @@ private:
 		Parent->left = GP;
 		return Parent;
 	}
+
 	Node* LL(Node* current)
 	{
 		Node* Parent = current->parent;
@@ -149,6 +151,7 @@ private:
 		current = RR(Parent);
 		return current;
 	}
+  
 	Node* getUncle(Node* current)
 	{
 		Node* Parent = current->parent;
@@ -381,12 +384,58 @@ public:
 					}
 					Sibling->Color = 1;
 					parent->Color = 0;
-					break;
 				}
 				// cas 3 p=black s=black n=black{d=black....p=D....s=red}
+       /* if (parent->Color == 1 && Sibling->Color == 1 && RightNephew->Color == 1 && LeftNephew->Color == 1)
+        {
+          parent->Color=2;
+          Sibling->Color=1;
+          temp->Color=1;}*/
 				// cas 4 p=red s=black n=black{D=black ....switch color s,p}
+        if (parent->Color == 0 && Sibling->Color == 1 && RightNephew->Color == 1 && LeftNephew->Color == 1)
+        {
+          cout<<"Case 4"<<endl;
+          temp->Color=1;
+          Sibling->Color=0;
+          parent->Color=1;
+          temp=NULL;
+        }
+        Node* FarestNephew;
+        Node* NearestNephew;
+        if(temp==parent->left){ 
+          NearestNephew=LeftNephew;
+          FarestNephew=RightNephew;
+        }
+        else{
+           NearestNephew=RightNephew;
+          FarestNephew=LeftNephew;
+        }
 				// case5  s=black n=red{n,D same direction 1:rotate n on s...2:switch colorn,s}
-				// case6  s=black n=red{n,doubleblack opposite direction...1:rotate parent n on gp namespace 2:switch color:n,p,gp....3:D=black}
+        if(Sibling->Color == 1 && NearestNephew->Color == 0){
+          cout<<"Case 5"<<endl;
+          if(temp==parent->left){
+            RL(NearestNephew);
+          }
+          else{
+            LR(NearestNephew);
+          }
+           parent->Color=1;
+           temp=NULL;
+        }
+				// case6  s=black n=red{n,doubleblack opposite direction...1:rotate parent n on gp 2:switch color:n,p,gp....3:D=black}
+       if (Sibling->Color == 1 && FarestNephew->Color == 0){
+         cout<<"Case 6"<<endl;
+          if(temp==parent->left){
+            RR(FarestNephew);
+          }
+          else if (temp==parent->right){
+            LL(FarestNephew);
+          }
+          Sibling->Color=parent->Color;
+          parent->Color=1;
+          FarestNephew->Color=1;
+          temp=NULL;
+       }
 			} while (temp != NULL);
 		}
 	}
