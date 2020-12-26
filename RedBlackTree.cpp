@@ -334,7 +334,8 @@ public:
 					}
 				}
 			}
-		} while (current_node == root && root->Color == 0);
+			else if (GrandParent == NULL)break;
+		} while (current_node != root && root->Color == 0);
 	}
 
 	void Delete(int number) {
@@ -421,6 +422,7 @@ public:
           }
            parent->Color=1;
            temp=NULL;
+		   return;
         }
 				// case6  s=black n=red{n,doubleblack opposite direction...1:rotate parent n on gp 2:switch color:n,p,gp....3:D=black}
        if (Sibling->Color == 1 && FarestNephew->Color == 0){
@@ -435,6 +437,7 @@ public:
           parent->Color=1;
           FarestNephew->Color=1;
           temp=NULL;
+		  return;
        }
 			} while (temp != NULL);
 		}
