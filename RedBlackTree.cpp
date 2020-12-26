@@ -53,7 +53,10 @@ private:
 		else
 		{
 			inorder(temp->left);
-			string Color = temp->Color ? " (B) " : " (R) ";
+			string Color ;
+			if(temp->Color == 0)Color="(R)";
+			else if (temp->Color==1)Color="(B)";
+			else Color ="(DB)";
 			cout << temp->value << Color;
 			inorder(temp->right);
 		}
@@ -64,10 +67,12 @@ private:
 		Node* GP = Parent->parent;
 		//rotate
 		Parent->parent = GP->parent;
-		if(GP->parent != NULL && isRight(GP))
+		if (GP->parent != NULL && isRight(GP))
 			GP->parent->right = Parent;
-		else if(GP->parent != NULL && !isRight(GP))
+		else if (GP->parent != NULL && !isRight(GP))
 			GP->parent->left = Parent;
+		else if (GP->parent == NULL) //parent becomes root
+			root = Parent;
 		GP->parent = Parent;
 		GP->right = NULL;
 		if (Parent->left != NULL)
@@ -88,6 +93,8 @@ private:
 			GP->parent->right = Parent;
 		else if(GP->parent != NULL && !isRight(GP))
 			GP->parent->left = Parent;
+		else if (GP->parent == NULL) //parent becomes root
+			root = Parent;
 		GP->parent = Parent;
 		GP->left = NULL;
 		if (Parent->right != NULL)
@@ -372,8 +379,9 @@ public:
 					{
 						LL(LeftNephew);
 					}
-					Sibling->Color = 0;
-					parent->Color = 1;
+					Sibling->Color = 1;
+					parent->Color = 0;
+					break;
 				}
 				// cas 3 p=black s=black n=black{d=black....p=D....s=red}
 				// cas 4 p=red s=black n=black{D=black ....switch color s,p}
