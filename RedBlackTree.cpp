@@ -3,7 +3,7 @@
 using namespace std;
 /*
 1.insert  Done
-2.delete
+2.delete  Done
 3.print   Done
 4.clear   Done
 */
@@ -419,7 +419,7 @@ public:
         }
 				
 				// case6  s=black n=red{n,doubleblack opposite direction...1:rotate parent n on gp 2:switch color:n,p,gp....3:D=black}
-       if (Sibling->Color == 1 && FarestNephew->Color == 0){
+       if (Sibling->Color == 1 && FarestNephew != NULL &&FarestNephew->Color == 0){
          cout<<"Case 6"<<endl;
           if(temp==parent->left){
             RR(FarestNephew);
@@ -434,7 +434,7 @@ public:
 		    break;
        }
        // case5  s=black n=red{n,D same direction 1:rotate n on s...2:switch colorn,s}
-        if(Sibling->Color == 1 && NearestNephew->Color == 0){
+        if(Sibling->Color == 1 && NearestNephew->Color == 0 && ( FarestNephew == NULL || FarestNephew->Color == 1)){
           cout<<"Case 5"<<endl;
           if(temp==parent->left){
             RL(NearestNephew);
