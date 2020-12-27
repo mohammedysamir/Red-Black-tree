@@ -375,7 +375,7 @@ public:
 				Node* LeftNephew = Sibling->left;
 				// case 2 p=black s =red n=black{rotate and switch s,p}
 
-				if (parent->Color == 1 && Sibling->Color == 0 && RightNephew->Color == 1 && LeftNephew->Color == 1)
+				if (parent->Color == 1 && Sibling->Color == 0 && (RightNephew==NULL||RightNephew->Color == 1) && (LeftNephew==NULL||LeftNephew->Color == 1))
 				{
 					cout << "Case 2 " << endl;
 					if (Sibling == parent->right)
@@ -390,7 +390,7 @@ public:
 					parent->Color = 0;
 				}
 				// cas 3 p=black s=black n=black{d=black....p=D....s=red}
-       if (parent->Color == 1 && Sibling->Color == 1 && RightNephew->Color == 1 && LeftNephew->Color == 1)
+       if (parent->Color == 1 && Sibling->Color == 1 && (RightNephew==NULL||RightNephew->Color == 1) && (LeftNephew==NULL||LeftNephew->Color == 1))
         {
           parent->Color=2;
           Sibling->Color=1;
@@ -399,7 +399,7 @@ public:
           temp=parent;  //parent now is double black
           }
 				// cas 4 p=red s=black n=black{D=black ....switch color s,p}
-        if (parent->Color == 0 && Sibling->Color == 1 && RightNephew->Color == 1 && LeftNephew->Color == 1)
+        if (parent->Color == 0 && Sibling->Color == 1 &&(RightNephew==NULL||RightNephew->Color == 1) && (LeftNephew==NULL||LeftNephew->Color == 1))
         {
           cout<<"Case 4"<<endl;
           temp->Color=1;
