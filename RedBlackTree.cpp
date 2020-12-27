@@ -11,7 +11,7 @@ class RedBlackTree
 {
 private:
 	Node* root = NULL;
-	//Helper functions to do {insert in BST , delete in BST , inorder traversal , rotations , get uncle and Sibling , isSameDirection , get Predecessor}
+	//Helper functions to do {insert in BST , delete in BST , inorder traversal , rotations , get uncle and Sibling , isSameDirection , get Predecessor , clear}
 	Node* insertBT(int number)
 	{
 		Node* newnode = new Node();
@@ -255,6 +255,12 @@ private:
 		return false;
 	}
 
+	void ClearHelper(Node* root) {
+		if (root == NULL)return;
+		ClearHelper(root->left);
+		ClearHelper(root->right);
+		delete root;
+	}
 public:
 	bool isEmpty()
 	{
@@ -395,7 +401,9 @@ public:
           parent->Color=2;
           Sibling->Color=1;
           temp->Color=1;
-          delete temp;    //delete double black
+		  if (isRight(temp))parent->right = NULL;
+		  else parent->left = NULL;
+		  temp->parent = NULL;
           temp=parent;  //parent now is double black
           }
 				// cas 4 p=red s=black n=black{D=black ....switch color s,p}
@@ -405,7 +413,10 @@ public:
           temp->Color=1;
           Sibling->Color=0;
           parent->Color=1;
-         delete temp;
+		  if (isRight(temp))parent->right = NULL;
+		  else parent->left = NULL;
+		  temp->parent = NULL;
+		  temp = NULL;
         }
         Node* FarestNephew;
         Node* NearestNephew;
@@ -417,35 +428,44 @@ public:
            NearestNephew=RightNephew;
           FarestNephew=LeftNephew;
         }
-				
-				// case6  s=black n=red{n,doubleblack opposite direction...1:rotate parent n on gp 2:switch color:n,p,gp....3:D=black}
+			
+		// case5  s=black n=red{n,D same direction 1:rotate n on s...2:switch colorn,s}
+		if (Sibling->Color == 1 && (NearestNephew != NULL && NearestNephew->Color == 0) && (FarestNephew == NULL || FarestNephew->Color == 1)) {
+			cout << "Case 5" << endl;
+			if (!isRight(temp)) {
+				RL(NearestNephew);
+				parent->left = NULL;
+			}
+			else {
+				LR(NearestNephew);
+				parent->right = NULL;
+			}
+			parent->Color = 1;
+			//cut pointers 
+			temp->parent = NULL;
+			temp = NULL;
+			break;
+		}
+		// case6  s=black n=red{n,doubleblack opposite direction...1:rotate parent n on gp 2:switch color:n,p,gp....3:D=black}
        if (Sibling->Color == 1 && FarestNephew != NULL &&FarestNephew->Color == 0){
          cout<<"Case 6"<<endl;
-          if(temp==parent->left){
+          if(!isRight(temp)){
             RR(FarestNephew);
+			parent->left = NULL;
           }
-          else if (temp==parent->right){
+          else if (isRight(temp)){
             LL(FarestNephew);
+			parent->right = NULL;
+
           }
           Sibling->Color=parent->Color;
           parent->Color=1;
           FarestNephew->Color=1;
-          delete temp;
+		  temp->parent = NULL;
+		  temp = NULL;
 		    break;
        }
-       // case5  s=black n=red{n,D same direction 1:rotate n on s...2:switch colorn,s}
-        if(Sibling->Color == 1 && NearestNephew->Color == 0 && ( FarestNephew == NULL || FarestNephew->Color == 1)){
-          cout<<"Case 5"<<endl;
-          if(temp==parent->left){
-            RL(NearestNephew);
-          }
-          else{
-            LR(NearestNephew);
-          }
-           parent->Color=1;
-           delete temp;
-           break;
-        }
+      
 			} while (temp != NULL);
 		}
 	}
@@ -465,9 +485,11 @@ public:
 
 	void Clear()
 	{
-		root->value = 0;
+		/*root->value = 0;
 		root->right = NULL;
 		root->left = NULL;
+		root = NULL;*/
+		ClearHelper(root);
 		root = NULL;
 	}
 };

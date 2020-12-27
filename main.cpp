@@ -13,9 +13,10 @@ rb->insert(25);
 rb->insert(22);
 rb->insert(27);
 rb->Print();
-rb->Delete(11);
+rb->Delete(15);
+rb->Delete(17);
 rb->Print();
-//rb->Delete(1);
+rb->Clear();
 rb->Print();
 
 }
@@ -27,13 +28,10 @@ rb->Print();
 
 
 
-/*
 
-              5
-            /   \
-           4     6
-          /       \
-         1         8
-          \       /
-           3     7   
+
+
+/*
+Tested Values :
+	13 , 8 , 1 , 11 , 6 ,17 ,15 ,25 ,22 ,27 
 */
