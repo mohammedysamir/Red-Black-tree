@@ -233,6 +233,8 @@ private:
 		{
 			temp = temp->right;
 		}
+    //need to change current data 
+    current->value=temp->value; 
 		return temp;
 	}
 
