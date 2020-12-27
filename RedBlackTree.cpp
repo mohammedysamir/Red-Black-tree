@@ -54,9 +54,11 @@ private:
 		{
 			inorder(temp->left);
 			string Color ;
-			if(temp->Color == 0)Color="(R)";
-			else if (temp->Color==1)Color="(B)";
-			else Color ="(DB)";
+			if(temp->Color == 0)Color="(R) ";
+			else if (temp->Color==1)Color="(B) ";
+			//else Color ="(DB)";
+      if(temp->value ==0 && temp->Color ==0) //handle NULL
+          return;
 			cout << temp->value << Color;
 			inorder(temp->right);
 		}
@@ -389,11 +391,14 @@ public:
 					parent->Color = 0;
 				}
 				// cas 3 p=black s=black n=black{d=black....p=D....s=red}
-       /* if (parent->Color == 1 && Sibling->Color == 1 && RightNephew->Color == 1 && LeftNephew->Color == 1)
+       if (parent->Color == 1 && Sibling->Color == 1 && RightNephew->Color == 1 && LeftNephew->Color == 1)
         {
           parent->Color=2;
           Sibling->Color=1;
-          temp->Color=1;}*/
+          temp->Color=1;
+          delete temp;    //delete double black
+          temp=parent;  //parent now is double black
+          }
 				// cas 4 p=red s=black n=black{D=black ....switch color s,p}
         if (parent->Color == 0 && Sibling->Color == 1 && RightNephew->Color == 1 && LeftNephew->Color == 1)
         {
@@ -401,7 +406,7 @@ public:
           temp->Color=1;
           Sibling->Color=0;
           parent->Color=1;
-          temp=NULL;
+         delete temp;
         }
         Node* FarestNephew;
         Node* NearestNephew;
@@ -423,8 +428,8 @@ public:
             LR(NearestNephew);
           }
            parent->Color=1;
-           temp=NULL;
-		   return;
+           delete temp;
+           break;
         }
 				// case6  s=black n=red{n,doubleblack opposite direction...1:rotate parent n on gp 2:switch color:n,p,gp....3:D=black}
        if (Sibling->Color == 1 && FarestNephew->Color == 0){
@@ -438,8 +443,8 @@ public:
           Sibling->Color=parent->Color;
           parent->Color=1;
           FarestNephew->Color=1;
-          temp=NULL;
-		  return;
+          delete temp;
+		    break;
        }
 			} while (temp != NULL);
 		}
