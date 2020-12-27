@@ -485,10 +485,11 @@ public:
 
 	void Clear()
 	{
-		/*root->value = 0;
-		root->right = NULL;
-		root->left = NULL;
-		root = NULL;*/
+		if (root == NULL)
+		{
+			cout << "Tree is already empty" << endl;
+			return;
+		}
 		ClearHelper(root);
 		root = NULL;
 	}
