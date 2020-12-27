@@ -56,7 +56,6 @@ private:
 			string Color ;
 			if(temp->Color == 0)Color="(R) ";
 			else if (temp->Color==1)Color="(B) ";
-			//else Color ="(DB)";
       if(temp->value ==0 && temp->Color ==0) //handle NULL
           return;
 			cout << temp->value << Color;
@@ -348,7 +347,7 @@ public:
 		//1-temp->color=0 delete 
 		if (temp->Color == 0)
 		{
-			cout << "Red Node" << endl;
+			cout << "The Node is Red " << endl;
 			if (isRight(temp))
 			{
 				parent->right = NULL;
@@ -362,7 +361,7 @@ public:
 		else if (temp->Color == 1) {
 			//Change temp->color to 2 'double black'
 			temp->Color = 2;
-			cout << "Black Node" << endl;
+			cout << "The Node is Black " << endl;
 			// case 1:d=double black is root ----> make it black and delete
 			if (temp == root)
 			{
@@ -418,19 +417,7 @@ public:
            NearestNephew=RightNephew;
           FarestNephew=LeftNephew;
         }
-				// case5  s=black n=red{n,D same direction 1:rotate n on s...2:switch colorn,s}
-        if(Sibling->Color == 1 && NearestNephew->Color == 0){
-          cout<<"Case 5"<<endl;
-          if(temp==parent->left){
-            RL(NearestNephew);
-          }
-          else{
-            LR(NearestNephew);
-          }
-           parent->Color=1;
-           delete temp;
-           break;
-        }
+				
 				// case6  s=black n=red{n,doubleblack opposite direction...1:rotate parent n on gp 2:switch color:n,p,gp....3:D=black}
        if (Sibling->Color == 1 && FarestNephew->Color == 0){
          cout<<"Case 6"<<endl;
@@ -446,6 +433,19 @@ public:
           delete temp;
 		    break;
        }
+       // case5  s=black n=red{n,D same direction 1:rotate n on s...2:switch colorn,s}
+        if(Sibling->Color == 1 && NearestNephew->Color == 0){
+          cout<<"Case 5"<<endl;
+          if(temp==parent->left){
+            RL(NearestNephew);
+          }
+          else{
+            LR(NearestNephew);
+          }
+           parent->Color=1;
+           delete temp;
+           break;
+        }
 			} while (temp != NULL);
 		}
 	}
