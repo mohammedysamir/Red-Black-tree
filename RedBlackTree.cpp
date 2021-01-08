@@ -279,7 +279,7 @@ public:
 		{
 			if (current_node == root)
 			{
-				current_node->Color = 1;
+				current_node->Color = 1; //switch color to black
 				break;
 			}
 			Node* Parent = current_node->parent;
@@ -399,11 +399,11 @@ public:
        if (parent->Color == 1 && Sibling->Color == 1 && (RightNephew==NULL||RightNephew->Color == 1) && (LeftNephew==NULL||LeftNephew->Color == 1))
         {
           parent->Color=2;
-          Sibling->Color=1;
+          Sibling->Color=0;
           temp->Color=1;
 		  if (isRight(temp))parent->right = NULL;
 		  else parent->left = NULL;
-		  temp->parent = NULL;
+		      temp->parent = NULL;
           temp=parent;  //parent now is double black
           }
 				// cas 4 p=red s=black n=black{D=black ....switch color s,p}
